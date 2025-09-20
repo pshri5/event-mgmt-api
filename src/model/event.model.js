@@ -21,7 +21,8 @@ const eventSchema = new Schema({
     },
     Owner:{
         type: mongoose.Types.ObjectId,
-        ref: User
+        ref: User,
+        required: true,
     },
     status:{
         type: String,

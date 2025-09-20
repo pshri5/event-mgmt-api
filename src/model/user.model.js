@@ -1,4 +1,5 @@
 import mongoose,{Schema} from "mongoose";
+import bcrypt from "bcrypt"
 
 const userSchema = new Schema({
     firstName: {
@@ -18,11 +19,17 @@ const userSchema = new Schema({
     password: {
         type: String,
         minlength: 6,
-        required: true
+        required: [true,"Password is required"]
     },
 },{timestamps: true})
 
+userSchema.pre("save", async function(next){
+    if(!this.isModified("password")) return next() //prevents rehashing of password
+    
+    this.password = await bcrypt.hash(this.password,10) //hashes the password before saving 
+    next()
 
+})
 
 
 

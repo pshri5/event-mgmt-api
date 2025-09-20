@@ -1,0 +1,1 @@
+export const DB_Name = "event-mgmt-db"
