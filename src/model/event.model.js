@@ -62,5 +62,15 @@ eventSchema.virtual("availableSpots").get(function(){
     return this.capacity- this.participants.length
 })
 
+// Add validation method to prevent last-minute cancellations
+eventSchema.methods.canCancel = function() {
+    const hoursBeforeEvent = 24; // Configurable
+    const currentTime = new Date();
+    const timeDifference = this.startDate.getTime() - currentTime.getTime();
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+    
+    return hoursDifference > hoursBeforeEvent;
+}
+
 
 export const Event = mongoose.model("Event",eventSchema)
